@@ -1,7 +1,10 @@
+#!/usr/bin/env python
+
 import sqlite3
 import sys
 import json
 import base64
+import lite2j
 
 def show_usage():
     print 'Usage:\n\tlite2j sqlitefile.db --exclude=table_name --exclude=table_name'
@@ -29,7 +32,7 @@ sqlite3.register_converter('BLOB', base64.b64encode)
 conn = sqlite3.connect(db_file, detect_types=sqlite3.PARSE_DECLTYPES)
 cursor = conn.cursor()
 
-def get_table_list(cursor, exclude_tables=exclude_tables):
+def get_table_list(cursor, exclude_tables=set()):
     cursor.execute('SELECT * FROM main.sqlite_master WHERE type="table"')
     return set(row[1] for row in cursor.fetchall()) - exclude_tables
 
@@ -42,8 +45,9 @@ def get_table(cursor, table_name):
     cursor.execute('SELECT * FROM main.%s' % table_name)
     return [dict(zip(column_names, row)) for row in cursor.fetchall()]
 
-def get_tables(cursor):
-    table_list = get_table_list(cursor)
-    return [{table_name : get_table(cursor, table_name) for table_name in table_list}]
+def get_tables(cursor, excude_tables):
+    table_list = get_table_list(cursor, exclude_tables=exclude_tables)
+    return {table_name : get_table(cursor, table_name) for table_name in table_list}
 
-print json.dumps(get_tables(cursor))
+if __name__ == '__main__':
+    print json.dumps(lite2j.get_tables(cursor, eclude_tables))
