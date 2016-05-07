@@ -50,6 +50,14 @@ def get_table(cursor, table_name):
     cursor.execute('SELECT * FROM main.%s' % table_name)
     return [dict(zip(column_names, row)) for row in cursor.fetchall()]
 
+
+def get_tables(cursor):
+    table_list = get_table_list(cursor)
+    output = {}
+    for table_name in table_list:
+        output[table_name] = get_table(cursor, table_name)
+    return output
+
 def get_tables(cursor):
     table_list = get_table_list(cursor)
     return [{table_name : get_table(cursor, table_name) for table_name in table_list}]
