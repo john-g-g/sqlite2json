@@ -37,7 +37,7 @@ def sqlite2json(exclude_tables=None,db_file=None):
 
     return json.dumps(get_tables(cursor))
 
-def get_table_list(cursor, exclude_tables=exclude_tables):
+def get_table_list(cursor, exclude_tables=set([]):
     cursor.execute('SELECT * FROM main.sqlite_master WHERE type="table"')
     return set(row[1] for row in cursor.fetchall()) - exclude_tables
 
