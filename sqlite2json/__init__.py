@@ -58,9 +58,5 @@ def get_tables(cursor):
         output[table_name] = get_table(cursor, table_name)
     return output
 
-def get_tables(cursor):
-    table_list = get_table_list(cursor)
-    return [{table_name : get_table(cursor, table_name) for table_name in table_list}]
-
 if __name__ == "__main__":
     main()
