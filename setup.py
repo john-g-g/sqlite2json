@@ -2,8 +2,8 @@ from setuptools import setup
 
 setup(
     name='sqlite2json',
-    version='1.0.0',
-    author='John gerlock',
+    version='1.0.1',
+    author='John Gerlock',
     author_email='john@pikkey.com',
     packages=['sqlite2json'],
     url='https://github.com/john-g-g/sqlite2json',
